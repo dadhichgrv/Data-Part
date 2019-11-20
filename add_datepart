@@ -1,0 +1,7 @@
+def add_datepart(df,fldname):
+  fld = df[fldname]
+  target_pre = re.sub('[Dd]ate$','',fldname)
+  for n in ('dayofyear','is_leap_year','is_month_end','is_month_start','is_quarter_end','is_quarter_start','is_year_end','is_year_start','month','quarter','week','day','dayofweek','year'):
+    df[target_pre+"_"+n] = getattr(fld.dt,n.lower())
+  df[target_pre+"elapsed"] = (fld-fld.min()).dt.days  
+  df.drop(fldname,axis=1,inplace=True)
